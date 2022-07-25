@@ -1,4 +1,4 @@
-package com.glimiafernandez.yelpProject
+package com.glimiafernandez.yelpProject.yelpModels
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package com.glimiafernandez.yelpProject
+package com.glimiafernandez.yelpProject.yelpModels
 
 
 import retrofit2.Call
