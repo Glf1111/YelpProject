@@ -1,6 +1,7 @@
 package com.glimiafernandez.yelpProject
 
 import android.content.Context
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +14,32 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.glimiafernandez.yelpProject.yelpModels.YelpRestaurant
+
+private const val TAG = "MainActivity"
+
+class RestaurantAdapter(
+    private val context: Context,
+    private val restaurants: List<YelpRestaurant>,
+    private val onClickListener: OnClickListener
+):RecyclerView.Adapter<RestaurantAdapter.ViewHolder>() {
+
+    interface OnClickListener{
+        fun onItemClick(position: Int)
+    }
 
 
-class RestaurantAdapter( private val context: Context, private val restaurants: List<YelpRestaurant>):RecyclerView.Adapter<RestaurantAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_restaurant,parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val restaurant = restaurants[position]
+        holder.itemView.setOnClickListener{
+            Log.i(TAG,"Clicked position $position")
+            onClickListener.onItemClick(position)
+        }
         holder.bind(restaurant)
 
     }
@@ -58,10 +76,4 @@ class RestaurantAdapter( private val context: Context, private val restaurants: 
 }
 
 
-/*
-* tvNumberViews.text = "${restaurant.reviewCount}Reviews"
 
-            tvCategories.text =restaurant.category[0].title
-
-
-            * */
