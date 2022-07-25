@@ -5,6 +5,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.glimiafernandez.yelpProject.yelpModels.YelpDataClasses
+import com.glimiafernandez.yelpProject.yelpModels.YelpRestaurant
+import com.glimiafernandez.yelpProject.yelpModels.YelpService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,13 +20,23 @@ private const val API_KEY = "G-N9gW0oVN-i6UPOThN_yvQ9ZvNDQJ17fltdBH32nrlM6d6lsrc
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var restaurantAdapter : RestaurantAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val rvRestaurant = findViewById<RecyclerView>(R.id.rvRestaurants)
         val restaurants = mutableListOf<YelpRestaurant>()
-        val adapter = RestaurantAdapter(this, restaurants)
+        val adapter = RestaurantAdapter(this, restaurants,object :RestaurantAdapter.OnClickListener{
+            override fun onItemClick(position: Int) {
+                Log.i(TAG, "position $position")
+
+            }
+
+        })
         rvRestaurant.adapter = adapter
         rvRestaurant.layoutManager = LinearLayoutManager(this)
 
@@ -51,6 +64,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+
 
 
     }
