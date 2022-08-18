@@ -1,12 +1,8 @@
 package com.glimiafernandez.yelpProject
 
-import android.icu.util.Calendar
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,11 +18,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.format.DateTimeFormatter
 
 
 private const val TAG = "ScrollingActivity"
 private const val BASE_URL = " https://api.yelp.com/v3/"
+private const val FAVORITE = "FAVORITE"
+private const val DETAILS = "Details"
 
 
 class ScrollingActivity : AppCompatActivity() {
@@ -35,7 +32,9 @@ class ScrollingActivity : AppCompatActivity() {
     private lateinit var restaurant: YelpRestaurant
     private val restaurantDetailData = mutableListOf<RestaurantDetailData>()
 
-    @RequiresApi(Build.VERSION_CODES.N)
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScrollingDetailBinding.inflate(layoutInflater)
@@ -49,19 +48,16 @@ class ScrollingActivity : AppCompatActivity() {
 
 
 
-
-
-
         val mainBackDrop = findViewById<ImageView>(R.id.main_backdrop)
         Glide.with(this).load(restaurant.imageUrl).into(mainBackDrop)
 
 
+
+
+
         setSupportActionBar(findViewById(R.id.toolbar))
         binding.toolbarLayout.title = restaurant.name
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Added to Fav", Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show()
-        }
+
 
 
         val adapterDetail = RestaurantDetailAdapter(this,restaurantDetailData)
@@ -91,7 +87,6 @@ class ScrollingActivity : AppCompatActivity() {
                     return
                 }
                 restaurantDetailData.addAll(listOf(body))
-                Log.i(TAG, restaurantDetailData.toString())
                 adapterDetail.notifyDataSetChanged()
 
 
@@ -104,7 +99,14 @@ class ScrollingActivity : AppCompatActivity() {
         })
 
 
+        binding.fab.setOnClickListener { view ->
+            Snackbar.make(view, "Added to Fav", Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show()
 
+
+
+
+        }
 
 
 
